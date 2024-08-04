@@ -17,6 +17,10 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
   const poseidonT5 = await hre.ethers.getContract("PoseidonT5", deployer);
   const poseidonT6 = await hre.ethers.getContract("PoseidonT6", deployer);
 
+  //change to your burner wallet address provided by the FE
+  const burnerAddress = "0xDb5FA72aF06a07bc93aC823f85A22D0d93126205";
+  await maci.transferOwnership(burnerAddress);
+
   fs.writeFileSync(
     "./contractAddresses.json",
     JSON.stringify(

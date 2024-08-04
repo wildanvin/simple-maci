@@ -7,8 +7,10 @@
    pnpm i && \
    pnpm download-zkeys:test
    ```
-2. the `zkey` folder will be in the `cli` folder, copy it and paste it in the `/packages/hardhat/` dir
+2. the `zkey` folder will be in the `cli` folder of the maci repo, copy it and paste it in the `/packages/hardhat/` dir
 3. contracts should compile by runnig `yarn compile`
+4. change ownership of the `MACIWrapper.sol` contract by modifiying `packages\hardhat\deploy\10_generate_address_file.ts` at line 20.
+5. interact with the protocol(?)
 
 # Scaffold ETH 2 + MACI Voting Template
 
