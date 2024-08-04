@@ -1,3 +1,15 @@
+# Notes
+
+1. generate the zkey folder by cloning the maci repo and running:
+   ```
+   git clone https://github.com/privacy-scaling-explorations/maci.git && \
+   cd maci && \
+   pnpm i && \
+   pnpm download-zkeys:test
+   ```
+2. the `zkey` folder will be in the `cli` folder, copy it and paste it in the `/packages/hardhat/` dir
+3. contracts should compile by runnig `yarn compile`
+
 # Scaffold ETH 2 + MACI Voting Template
 
 Welcome to the Scaffold ETH 2 + MACI Voting Template! This template is a powerful starting point for developers aiming to build decentralized voting applications that prioritize privacy and resist collusion. Combining the rapid development environment of Scaffold ETH with the innovative Minimal Anti-Collusion Infrastructure (MACI), this template offers a robust foundation for creating secure and transparent voting systems on the Ethereum blockchain
