@@ -12,6 +12,16 @@
 4. change ownership of the `MACIWrapper.sol` contract by modifiying `packages\hardhat\deploy\10_generate_address_file.ts` at line 20.
 5. interact with the protocol(?)
 
+## For using maci-cli
+
+1. In the maci repo:
+   ```
+   pnpm i
+   pnpm run build
+   ```
+2. cd into `cli` and run `npm install -g .`
+3. run `maci-cli -V` you should get: 2.0.0-alpha
+
 # Scaffold ETH 2 + MACI Voting Template
 
 Welcome to the Scaffold ETH 2 + MACI Voting Template! This template is a powerful starting point for developers aiming to build decentralized voting applications that prioritize privacy and resist collusion. Combining the rapid development environment of Scaffold ETH with the innovative Minimal Anti-Collusion Infrastructure (MACI), this template offers a robust foundation for creating secure and transparent voting systems on the Ethereum blockchain
