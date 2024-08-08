@@ -20,7 +20,184 @@
    pnpm run build
    ```
 2. cd into `cli` and run `npm install -g .`
-3. run `maci-cli -V` you should get: 2.0.0-alpha
+3. run `maci-cli -V` you should get: 2.0.0
+
+## Using the cli
+
+- Send some funds:
+
+  1. Replace with one of the private keys generated from `yarn chain` in the maci repo `packages/cli/ts/utils/defaults.ts`
+
+  ```
+  export const DEFAULT_ETH_SK = "your_scaffold_private_key";
+  ```
+
+  now run:
+
+  ```
+  maci-cli fundWallet -a 10000000000000000000 -w 0x93496ef70EA5A1635B52CdEcbB73cc0360619cE7
+  ```
+
+- Generate maci keys:
+
+```
+maci-cli genMaciKeyPair
+```
+
+## Workflow for using maci only wiht the cli [link](https://maci.pse.dev/docs/developers-references/typescript-code/cli#demonstration):
+
+1. `maci-cli deployVkRegistry`
+
+2. Set Verifiying keys. We will use:
+
+   ```
+   Coordinator:
+   Public key: macipk.281830024fb6d21a4c73a89a7139aff61fbbddad731ef2dc2db9516171fd390e
+   Private key: macisk.bf92af7614b07e2ba19dce65bb7fef2b93d83b84da2cf2e3af690104fbc52511
+
+   Alice:
+   Public key: macipk.1cac8e4e5b54d7dcce4aa06e71d8b9f324458756e7a9368383d005592719512a
+   Private key: macisk.63e796e4e5d18a5fcf4ccef1e74e83b807a165d6727bb892017
+
+   ```
+
+   Documentation from cli help:
+
+   ```
+   Usage: maci-cli setVerifyingKeys [options]
+
+   Options:
+   -s, --state-tree-depth <stateTreeDepth> the state tree depth
+   -i, --int-state-tree-depth <intStateTreeDepth> the intermediate state tree depth
+   -m, --msg-tree-depth <messageTreeDepth> the message tree depth
+   -v, --vote-option-tree-depth <voteOptionTreeDepth> the vote option tree depth
+   -b, --msg-batch-depth <messageBatchDepth> the message batch depth
+   -pqv, --process-messages-zkey-qv <processMessagesZkeyPathQv> the process messages qv zkey path (see different options for zkey files to use specific circuits
+   -tqv, --tally-votes-zkey-qv <tallyVotesZkeyPathQv> the tally votes qv zkey path (see different options for zkey files to use specific circuits
+   -pnqv, --process-messages-zkey-non-qv <processMessagesZkeyPathNonQv> the process messages non-qv zkey path (see different options for zkey files to use specific circuits
+   -tnqv, --tally-votes-zkey-non-qv <tallyVotesZkeyPathNonQv> the tally votes non-qv zkey path (see different options for zkey files to use specific circuits
+   -uq, --use-quadratic-voting <useQuadraticVoting> whether to use quadratic voting (default: true)
+   -k, --vk-registry <vkRegistry> the vk registry contract address
+   -q, --quiet <quiet> whether to print values to the console (default: false)
+   -r, --rpc-provider <provider> the rpc provider URL
+   -h, --help display help for command
+
+   ```
+
+   Run (notice that we will be usign params for qv):
+
+   ```
+   maci-cli setVerifyingKeys \
+   --state-tree-depth 10 \
+   --int-state-tree-depth 1 \
+   --msg-tree-depth 2 \
+   --vote-option-tree-depth 2 \
+   --msg-batch-depth 1 \
+   --process-messages-zkey-qv ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey \
+   --tally-votes-zkey-qv ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey
+
+   ```
+
+3. Create maci contract:
+
+   ```
+   maci-cli create -s 10
+
+   ```
+
+4. Deploy poll, note that the key is from the coordinator:
+
+   ```
+   maci-cli deployPoll \
+      -pk macipk.281830024fb6d21a4c73a89a7139aff61fbbddad731ef2dc2db9516171fd390e \
+      -t 1000 -i 1 -m 2 -b 1 -v 2
+   ```
+
+5. Alice sign up
+
+   ```
+   maci-cli signup \
+      --pubkey macipk.1cac8e4e5b54d7dcce4aa06e71d8b9f324458756e7a9368383d005592719512a
+   ```
+
+6. Alice votes:
+
+   ```
+   maci-cli publish \
+      --pubkey macipk.1cac8e4e5b54d7dcce4aa06e71d8b9f324458756e7a9368383d005592719512a \
+      --privkey macisk.63e796e4e5d18a5fcf4ccef1e74e83b807a165d6727bb89201782240458f7420 \
+      --state-index 1 \
+      --vote-option-index 0 \
+      --new-vote-weight 9 \
+      --nonce 1 \
+      --poll-id 0
+
+   ```
+
+7. Coordinator advances in time:
+
+   ```
+   maci-cli timeTravel -s 1000
+   ```
+
+8. Coordinator merge state tree and messages:
+
+   ```
+   maci-cli mergeSignups --poll-id 0
+   maci-cli mergeMessages --poll-id 0
+   ```
+
+9. Coordinator generates proofs:
+   ```
+   Usage: maci-cli genProofs [options]
+   ```
+
+generate the proofs for a poll
+
+Options:
+-sk, --privkey <privkey> your serialized MACI private key
+-x, --maci-address <maciAddress> the MACI contract address
+-o, --poll-id <pollId> the poll id
+-t, --tally-file <tallyFile> the tally file with results, per vote option spent credits, spent voice credits total
+-r, --rapidsnark <rapidsnark> the path to the rapidsnark binary
+-wp, --process-witnessgen <processWitnessgen> the path to the process witness generation binary
+-pd, --process-witnessdat <processWitnessdat> the path to the process witness dat file
+-wt, --tally-witnessgen <tallyWitnessgen> the path to the tally witness generation binary
+-td, --tally-witnessdat <tallyWitnessdat> the path to the tally witness dat file
+-zp, --process-zkey <processZkey> the path to the process zkey
+-zt, --tally-zkey <tallyZkey> the path to the tally zkey
+-q, --quiet <quiet> whether to print values to the console (default: false)
+-p, --rpc-provider <provider> the rpc provider URL
+-f, --output <outputDir> the output directory for proofs
+-tx, --transaction-hash <transactionHash> transaction hash of MACI contract creation
+-w, --wasm whether to use the wasm binaries
+-pw, --process-wasm <processWasm> the path to the process witness generation wasm binary
+-tw, --tally-wasm <tallyWasm> the path to the tally witness generation wasm binary
+-st, --state-file <stateFile> the path to the state file containing the serialized maci state
+-sb, --start-block <startBlock> the block number to start looking for events from
+-eb, --end-block <endBlock> the block number to end looking for events from
+-bb, --blocks-per-batch <blockPerBatch> the number of blocks to process per batch
+-uq, --use-quadratic-voting <useQuadraticVoting> whether to use quadratic voting (default: true)
+-h, --help display help for command
+
+```
+
+
+```
+
+maci-cli genProofs \
+ --privkey macisk.bf92af7614b07e2ba19dce65bb7fef2b93d83b84da2cf2e3af690104fbc52511 \
+ --poll-id 0 \
+ --process-zkey ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey \
+ --tally-zkey ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey \
+ --tally-file tally.json \
+ --output proofs/ \
+ -tw ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test_js/TallyVotes_10-1-2_test.wasm \
+ -pw ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm \
+ -w true
+
+````
+
 
 # Scaffold ETH 2 + MACI Voting Template
 
@@ -52,7 +229,7 @@ Jumpstart your development with these simple steps:
 git clone https://github.com/yashgo0018/maci-wrapper.git
 cd maci-wrapper
 yarn install
-```
+````
 
 2. **Download the zkeys for the maci circuits**
 
