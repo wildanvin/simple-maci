@@ -46,7 +46,11 @@ maci-cli genMaciKeyPair
 
 ## Workflow for using maci only wiht the cli [link](https://maci.pse.dev/docs/developers-references/typescript-code/cli#demonstration):
 
-1. `maci-cli deployVkRegistry`
+1. Deploy VkRegistry with:
+
+   ```
+   maci-cli deployVkRegistry
+   ```
 
 2. Set Verifiying keys. We will use:
 
@@ -60,6 +64,8 @@ maci-cli genMaciKeyPair
    Private key: macisk.63e796e4e5d18a5fcf4ccef1e74e83b807a165d6727bb892017
 
    ```
+
+   This won't deploy any contract.
 
    Documentation from cli help:
 
@@ -102,8 +108,19 @@ maci-cli genMaciKeyPair
 
    ```
    maci-cli create -s 10
-
    ```
+
+   This creates the following contracts:
+
+   - "InitialVoiceCreditProxy"
+   - "SignUpGatekeeper"
+   - "Verifier"
+   - "MACI"
+   - "PollFactory"
+   - "PoseidonT3"
+   - "PoseidonT4"
+   - "PoseidonT5"
+   - "PoseidonT6"
 
 4. Deploy poll, note that the key is from the coordinator:
 
@@ -112,6 +129,14 @@ maci-cli genMaciKeyPair
       -pk macipk.281830024fb6d21a4c73a89a7139aff61fbbddad731ef2dc2db9516171fd390e \
       -t 1000 -i 1 -m 2 -b 1 -v 2
    ```
+
+   This will deploy
+
+   - "MessageProcessor-0"
+   - "Tally-0"
+   - "Poll-0"
+
+   If you run it again new contracts are deployed with "-1" instead of "-0"
 
 5. Alice sign up
 
@@ -140,17 +165,23 @@ maci-cli genMaciKeyPair
    maci-cli timeTravel -s 1000
    ```
 
-8. Coordinator merge state tree and messages:
+8. Coordinator merge sign ups:
 
    ```
    maci-cli mergeSignups --poll-id 0
+   ```
+
+9. Coordinator merge messages:
+
+   ```
    maci-cli mergeMessages --poll-id 0
    ```
 
-9. Coordinator generates proofs:
-   ```
-   Usage: maci-cli genProofs [options]
-   ```
+10. Coordinator generates proofs:
+
+```
+Usage: maci-cli genProofs [options]
+
 
 generate the proofs for a poll
 
@@ -182,22 +213,22 @@ Options:
 
 ```
 
-
+```
+maci-cli genProofs \
+--privkey macisk.bf92af7614b07e2ba19dce65bb7fef2b93d83b84da2cf2e3af690104fbc52511 \
+--poll-id 0 \
+--process-zkey ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey \
+--tally-zkey ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey \
+--tally-file tally.json \
+--output proofs/ \
+-tw ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test_js/TallyVotes_10-1-2_test.wasm \
+-pw ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm \
+-w true
 ```
 
-maci-cli genProofs \
- --privkey macisk.bf92af7614b07e2ba19dce65bb7fef2b93d83b84da2cf2e3af690104fbc52511 \
- --poll-id 0 \
- --process-zkey ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test.0.zkey \
- --tally-zkey ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test.0.zkey \
- --tally-file tally.json \
- --output proofs/ \
- -tw ./zkeys/TallyVotes_10-1-2_test/TallyVotes_10-1-2_test_js/TallyVotes_10-1-2_test.wasm \
- -pw ./zkeys/ProcessMessages_10-2-1-2_test/ProcessMessages_10-2-1-2_test_js/ProcessMessages_10-2-1-2_test.wasm \
- -w true
+## Params for MACI sign up:
 
-````
-
+{"x":"9453811611401425417873282829453451081901440203056730621234123178381606479004","y":"6606073480734992424491039141423652057001268697189709755693149853209753795002"}
 
 # Scaffold ETH 2 + MACI Voting Template
 
@@ -229,7 +260,7 @@ Jumpstart your development with these simple steps:
 git clone https://github.com/yashgo0018/maci-wrapper.git
 cd maci-wrapper
 yarn install
-````
+```
 
 2. **Download the zkeys for the maci circuits**
 
