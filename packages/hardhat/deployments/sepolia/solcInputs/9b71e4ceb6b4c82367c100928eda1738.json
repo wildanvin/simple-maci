@@ -1,0 +1,40 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "@anon-aadhaar/contracts/interfaces/IAnonAadhaar.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.19;\n\ninterface IAnonAadhaar {\n    function verifyAnonAadhaarProof(\n        uint nullifierSeed,\n        uint nullifier,\n        uint timestamp,\n        uint signal,\n        uint[4] memory revealArray,\n        uint[8] memory groth16Proof\n    ) external view returns (bool);\n}\n"
+    },
+    "contracts/maci-contracts/Test.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.19;\n\nimport '@anon-aadhaar/contracts/interfaces/IAnonAadhaar.sol';\n\ncontract Test {\n   \n    address public anonAadhaarVerifierAddr;\n\n    constructor(\n        address _verifierAddr\n    ) {\n        anonAadhaarVerifierAddr = _verifierAddr;\n    }\n\n    function verifiedAadhaar2(\n\t\t\t\t\t\t\tuint _nullifierSeed, \n\t\t\t\t\t\t\tuint _nullifier, \n\t\t\t\t\t\t\tuint _timestamp, \n\t\t\t\t\t\t\tuint _signal, \n\t\t\t\t\t\t\tuint[4] memory _revealArray, \n\t\t\t\t\t\t\tuint[8] memory _groth16Proof\n\t\t\t\t\t\t\t) public view returns (bool) {\n\t\tbool verified = IAnonAadhaar(anonAadhaarVerifierAddr).verifyAnonAadhaarProof(\n                _nullifierSeed, // nulifier seed\n                _nullifier,\n                _timestamp,\n                _signal,\n                _revealArray,\n                _groth16Proof\n            );\n\t\n\t\treturn verified;\n\t}\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": true,
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

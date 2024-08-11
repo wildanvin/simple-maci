@@ -28,6 +28,7 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
       await initialVoiceCreditProxy.getAddress(),
       stateTreeDepth,
       emptyBallotRoots,
+      "0x6bE8Cec7a06BA19c39ef328e8c8940cEfeF7E281",
     ],
     log: true,
     libraries: {

@@ -1,0 +1,126 @@
+{
+  "address": "0x6D2b74C8cc058689247953fe929DE3e82640a390",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_verifierAddr",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "anonAadhaarVerifierAddr",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_nullifierSeed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_nullifier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_signal",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[4]",
+          "name": "_revealArray",
+          "type": "uint256[4]"
+        },
+        {
+          "internalType": "uint256[8]",
+          "name": "_groth16Proof",
+          "type": "uint256[8]"
+        }
+      ],
+      "name": "verifiedAadhaar2",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xbbf26b80f44894436b93f4e58fb50b2981e88270ee77e53a6b3ed6440f401f8a",
+  "receipt": {
+    "to": null,
+    "from": "0xB1E9e60aC45128ddcFDAfE9B517800B5fD7D091b",
+    "contractAddress": "0x6D2b74C8cc058689247953fe929DE3e82640a390",
+    "transactionIndex": 5,
+    "gasUsed": "221430",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xaa8d3d73acf020bc2ee200358a2450aa88fb0ab7a81b1589d6d3cdf8f4fa6f6e",
+    "transactionHash": "0xbbf26b80f44894436b93f4e58fb50b2981e88270ee77e53a6b3ed6440f401f8a",
+    "logs": [],
+    "blockNumber": 6477280,
+    "cumulativeGasUsed": "1467254",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x6bE8Cec7a06BA19c39ef328e8c8940cEfeF7E281"
+  ],
+  "numDeployments": 2,
+  "solcInputHash": "9b71e4ceb6b4c82367c100928eda1738",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_verifierAddr\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"anonAadhaarVerifierAddr\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_nullifierSeed\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_nullifier\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_timestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_signal\",\"type\":\"uint256\"},{\"internalType\":\"uint256[4]\",\"name\":\"_revealArray\",\"type\":\"uint256[4]\"},{\"internalType\":\"uint256[8]\",\"name\":\"_groth16Proof\",\"type\":\"uint256[8]\"}],\"name\":\"verifiedAadhaar2\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/maci-contracts/Test.sol\":\"Test\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@anon-aadhaar/contracts/interfaces/IAnonAadhaar.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\npragma solidity ^0.8.19;\\n\\ninterface IAnonAadhaar {\\n    function verifyAnonAadhaarProof(\\n        uint nullifierSeed,\\n        uint nullifier,\\n        uint timestamp,\\n        uint signal,\\n        uint[4] memory revealArray,\\n        uint[8] memory groth16Proof\\n    ) external view returns (bool);\\n}\\n\",\"keccak256\":\"0x3d0247e04707d2266471efeef4ab38ecf879cc286217ad5f624d966608e8964d\",\"license\":\"GPL-3.0\"},\"contracts/maci-contracts/Test.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\npragma solidity ^0.8.19;\\n\\nimport '@anon-aadhaar/contracts/interfaces/IAnonAadhaar.sol';\\n\\ncontract Test {\\n   \\n    address public anonAadhaarVerifierAddr;\\n\\n    constructor(\\n        address _verifierAddr\\n    ) {\\n        anonAadhaarVerifierAddr = _verifierAddr;\\n    }\\n\\n    function verifiedAadhaar2(\\n\\t\\t\\t\\t\\t\\t\\tuint _nullifierSeed, \\n\\t\\t\\t\\t\\t\\t\\tuint _nullifier, \\n\\t\\t\\t\\t\\t\\t\\tuint _timestamp, \\n\\t\\t\\t\\t\\t\\t\\tuint _signal, \\n\\t\\t\\t\\t\\t\\t\\tuint[4] memory _revealArray, \\n\\t\\t\\t\\t\\t\\t\\tuint[8] memory _groth16Proof\\n\\t\\t\\t\\t\\t\\t\\t) public view returns (bool) {\\n\\t\\tbool verified = IAnonAadhaar(anonAadhaarVerifierAddr).verifyAnonAadhaarProof(\\n                _nullifierSeed, // nulifier seed\\n                _nullifier,\\n                _timestamp,\\n                _signal,\\n                _revealArray,\\n                _groth16Proof\\n            );\\n\\t\\n\\t\\treturn verified;\\n\\t}\\n}\",\"keccak256\":\"0x22399e336c1a551df1e7c3291f8cbcce9e02dbd5b67ac41e324153d8f4beb3ce\",\"license\":\"GPL-3.0\"}},\"version\":1}",
+  "bytecode": "0x60803461007457601f61032838819003918201601f19168301916001600160401b038311848410176100795780849260209460405283398101031261007457516001600160a01b0381169081900361007457600080546001600160a01b03191691909117905560405161029890816100908239f35b600080fd5b634e487b7160e01b600052604160045260246000fdfe608060408181526004908136101561001657600080fd5b600092833560e01c9081630dbffbcd1461023a57506376db24251461003a57600080fd5b3461018b5761020036600319011261018b573660a3121561018b57805167ffffffffffffffff92608082018481118382101761022757835261010482368211610223576084905b82821061021357505036610123121561020f578351906101008201828110878211176101fc57855281610204923684116101f857829592905b8482106101e857505060018060a01b038854169086519586936350de0e5760e01b855286358786015260243560248601526044356044860152606435606486015260848501908b915b8883106101ce5750505083019089915b600883106101b45750505091816020935afa9384156101aa57859461013f575b60208585519015158152f35b90919293506020913d83116101a2575b601f8301601f191684019182118483101761018f5750602091839185528101031261018b5751801515810361018b576020925090388080610133565b8280fd5b634e487b7160e01b865260419052602485fd5b3d925061014f565b83513d87823e3d90fd5b815181528794506001929092019160209182019101610113565b815181528996506001929092019160209182019101610103565b81358152602091820191016100ba565b8880fd5b634e487b7160e01b885260418452602488fd5b8580fd5b8135815260209182019101610081565b8680fd5b634e487b7160e01b865260418252602486fd5b84903461025e578160031936011261025e5790546001600160a01b03168152602090f35b5080fdfea2646970667358221220660217464a91eba707cd779b9c75cd464e6c13bd217dc66c882836ce0c530b4764736f6c63430008140033",
+  "deployedBytecode": "0x608060408181526004908136101561001657600080fd5b600092833560e01c9081630dbffbcd1461023a57506376db24251461003a57600080fd5b3461018b5761020036600319011261018b573660a3121561018b57805167ffffffffffffffff92608082018481118382101761022757835261010482368211610223576084905b82821061021357505036610123121561020f578351906101008201828110878211176101fc57855281610204923684116101f857829592905b8482106101e857505060018060a01b038854169086519586936350de0e5760e01b855286358786015260243560248601526044356044860152606435606486015260848501908b915b8883106101ce5750505083019089915b600883106101b45750505091816020935afa9384156101aa57859461013f575b60208585519015158152f35b90919293506020913d83116101a2575b601f8301601f191684019182118483101761018f5750602091839185528101031261018b5751801515810361018b576020925090388080610133565b8280fd5b634e487b7160e01b865260419052602485fd5b3d925061014f565b83513d87823e3d90fd5b815181528794506001929092019160209182019101610113565b815181528996506001929092019160209182019101610103565b81358152602091820191016100ba565b8880fd5b634e487b7160e01b885260418452602488fd5b8580fd5b8135815260209182019101610081565b8680fd5b634e487b7160e01b865260418252602486fd5b84903461025e578160031936011261025e5790546001600160a01b03168152602090f35b5080fdfea2646970667358221220660217464a91eba707cd779b9c75cd464e6c13bd217dc66c882836ce0c530b4764736f6c63430008140033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 28,
+        "contract": "contracts/maci-contracts/Test.sol:Test",
+        "label": "anonAadhaarVerifierAddr",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      }
+    }
+  }
+}
